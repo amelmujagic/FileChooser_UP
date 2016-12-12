@@ -7,14 +7,14 @@ import java.util.Formatter;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 
-public class FileChooser_v2 {
+public class FileChooser_v2 extends FileFilter {
 
     private static String JAVA = "java";
     private static char DOT = '.';
     private static String PDF = "pdf";
-    
+
     public static void main(String[] args) {
-         JFileChooser ch;
+        JFileChooser ch;
         File file, directory;
         int status;
         Formatter formatFile;
@@ -29,13 +29,13 @@ public class FileChooser_v2 {
 
                 // ovdje implementiraj ispis samo PDF.ova
                 String[] listaFiles = directory.list();
-                System.out.println("Lista fajlova u dir-u: ");
+                System.out.println("List files from directory: ");
                 System.out.println(Arrays.toString(listaFiles));
 
-                System.out.println("Odabran je direktorij: " + directory.getName());
-                System.out.println("i file: " + file.getName());
-                System.out.println("sa putanjom " + file.getAbsolutePath());
-                System.out.println("file canonical path. " + file.getCanonicalPath());
+                System.out.println("Directory picked: " + directory.getName());
+                System.out.println("and file picked: " + file.getName());
+                System.out.println("with path " + file.getAbsolutePath());
+                System.out.println("and finally with file canonical path. " + file.getCanonicalPath());
             } else {
                 System.out.println("File-open dialog is canceled.");
             }
@@ -55,5 +55,30 @@ public class FileChooser_v2 {
         }
 
     }
-    
+
+    @Override
+    public boolean accept(File f) {
+        if (f.isDirectory()) {
+            return true;
+        }
+        if (extension(f) == JAVA) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public String getDescription() {
+        String extDescription = "Java source files (.java)";
+        return extDescription;
+    }
+
+    private String extension(File f) {
+        String filename = f.getName();
+        int no = filename.indexOf(DOT);
+        String ext = filename.substring(no, filename.length());
+        return ext;
+    }
+
 }
