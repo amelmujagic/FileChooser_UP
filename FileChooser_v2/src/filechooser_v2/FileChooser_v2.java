@@ -11,7 +11,7 @@ public class FileChooser_v2 {
 
     private static String JAVA = "java";
     private static char DOT = '.';
-    
+    private static String PDF = "pdf";
     
     public static void main(String[] args) {
          JFileChooser ch;
